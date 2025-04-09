@@ -87,12 +87,53 @@ def mergeSort(arr, l=0, r=0):
         mergeSort(arr, m + 1, r)
         merge(arr, l, m, r)
     return arr
+
+# 
+def partition(arr, low, high):
+    i = low - 1
+    pivot = arr[high]
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[high] = arr[high], arr[j + 1]
+    return (i + 1)
+
+# 
+def quickSort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+        quickSort(arr, low, p - 1)
+        quickSort(arr, p + 1, high)
+
+# 
+def heapify(arr, n, i):
+    smallestI = i
+    l = i * 2 + 1 
+    r = i * 2 + 2 
+    if (l < n and arr[l] < arr[smallestI]) or (r < n and arr[r] < arr[smallestI]):
+        smallestI = l
+    if smallestI != i:
+        arr[i], arr[smallestI] = arr[smallestI], arr[i]
+        heapify(arr, n, smallestI)
+
+# 
+def heapSort(arr):
+    n = len(arr)
+    for i in range(int(n / 2 - 1), -1, -1):
+        heapify(arr, n, i)
+    for i in range(n - 1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+        heapify(arr, i, 0)
+
 # 
 arr = [1, 6, 2, 71, 23, 16, 23, -1, -253, 235, 235, 1, 2, 14, 6, 1, 6, 1, 3, 111]
 
 # 
-print(bubbleSort(arr))
-print(selectionSort(arr))
-print(insertionSort(arr))
+# print(bubbleSort(arr))
+# print(selectionSort(arr))
+# print(insertionSort(arr))
 # print(bucketSort(arr))
-print(mergeSort(arr))
+# print(mergeSort(arr))
+# print(quickSort(arr, 0, len(arr) - 1))
+print(heapSort(arr))
